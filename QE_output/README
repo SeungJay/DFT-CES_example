@@ -1,0 +1,18 @@
+#DFT-CES quantum-espresso(QE) example
+
+1. The XX.out files are output files from QE of DFT-CES.
+(The unit is conventional units in QE)
+2. The "v_b+h+ion+saw+wat.avg" is the total electrostatic potential profiles in QE. It is sum of bare potential, hartree potential of valance electrons, MD potential, dipole correction potential.
+
+<Procedures for deriving solute.cube>
+#The solute.cube file is the QE potential file to apply the potential during the MD.
+#In case of neutral system, it can be directly extracted from PP module. 
+(in case of dipole correction, it should be more careful... please read source PP file attached in other repository)
+# If the system has excess charges, it should follow the below procedures.
+1. Subtract valanceElectrons_notNeutral and valanceElectrons_notNeutral = "val-refval_rho.cube"
+2. Subtract net charges as point charges at atomic position in "val-refval_rho.cube" = "val-refval-pointQ_rho.cube"
+3. Then, the ""val-refval-pointQ_rho.cube" is neutral.
+4. So after dipole correction, the electrostatic potential can be derived by solving Poisson's equation.
+5. Add the neutral potential of original system(bare+hartree potential).
+6. The subtracted point charges are assigned to the same atomic positions of MD system.
+7. To make consistent, the long-range Coulomb solver of MD system should be the "pppm"
