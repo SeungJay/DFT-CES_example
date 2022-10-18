@@ -43,11 +43,9 @@ neigh_modify    exclude group SOLUTE SOLUTE
 compute         tempMobile MOBILE temp
 compute         pressMobile all pressure tempMobile
 
-fix             solvGrid SOLVENT gridforce -1 72 0	# for SOLVENT group, scale -1, no-supercell,ID
-fix             ionGrid ION gridforce -1 72 1		# for ION group, scale -1, no-supercell,ID
+fix             solvGrid MOBILE gridforce -1 72 0	# for SOLVENT group, scale -1, no-supercell,ID
 fix_modify      solvGrid energy yes			# include grid energy to lammps total energy
-fix_modify      ionGrid energy yes			# include grid energy to lammps total energy
-grid            ./solute.cube yes 2 SOLVENT.cube ION.cube #see QE output
+grid            ./solute.cube 
 
 timestep        1.0
 thermo          100
